@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+{ set +x; } 2>/dev/null
+
+usage() {
+    echo "usage: $(basename $0) app ..." 1>&2
+    [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+}
+
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+
+[[ $# == 0 ]] && usage
+
+while [[ $# != 0 ]]; do
+    # application name may vary: iTerm.app, "iTerm" process name
+    count="$(osascript <<EOF 2> /dev/null
+tell application "System Events"
+    return count of (processes whose name is "$1")
+end tell
+EOF
+)"
+    [[ -n  $count ]] && [[ $count != 0 ]] && { shift; continue; }
+    ps -ax | grep -v grep | grep -i -q "$1.app/" && { shift; continue; }
+    /usr/bin/open -a "$1" || exit; shift
+    shift
+done

@@ -1,0 +1,13 @@
+{
+  "name": "mac-open-apps",
+  "version": "2019.5.15",
+  "description": "open macOS apps",
+  "keywords": [
+    "app"
+  ],
+  "homepage": "https://github.com/looking-for-a-job/mac-open-apps",
+  "license": "Unlicense",
+  "bin": {
+    "open-apps": "./scripts/open-apps"
+  }
+}
